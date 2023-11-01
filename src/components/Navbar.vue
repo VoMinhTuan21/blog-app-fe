@@ -18,9 +18,9 @@ const basePath = import.meta.env.BASE_URL
         <div :class="[$style.logo]">Niva Blog</div>
         <div :class="[$style.links]">
             <ThemeToggle />
-            <a href="/">Homepage</a>
-            <a href="/">Contact</a>
-            <a href="/">About</a>
+            <a href="/" :class="[$style.link]">Homepage</a>
+            <a href="/" :class="[$style.link]">Contact</a>
+            <a href="/" :class="[$style.link]">About</a>
             <AuthLink />
         </div>
     </div>
@@ -50,7 +50,45 @@ const basePath = import.meta.env.BASE_URL
 .links {
     display: flex;
     gap: 10px;
+    align-items: center;
     flex: 1;
     font-size: 20px;
+}
+
+@media screen and (max-width: 1280px) {
+    .logo {
+        font-size: 32px;
+    }
+
+    .links {
+        font-style: 18px;
+        gap: 15px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .social {
+        display: none;
+    }
+
+    .logo {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .links {
+        justify-content: flex-end;
+    }
+
+    .link {
+        display: none;
+    }
 }
 </style>

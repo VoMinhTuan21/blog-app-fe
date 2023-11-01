@@ -7,23 +7,20 @@ import BaseLayout from './layout/BaseLayout.vue'
 </script>
 
 <template>
-  <div class="container">
-    <div class="wraper">
-      <BaseLayout>
-        <template #header>
+  <BaseLayout>
+    <template #default>
+      <div class="container">
+        <div class="wraper">
+
           <Navbar />
-        </template>
 
-        <template #default>
           <RouterView />
-        </template>
 
-        <template #footer>
           <Footer />
-        </template>
-      </BaseLayout>
-    </div>
-  </div>
+        </div>
+      </div>
+    </template>
+  </BaseLayout>
 </template>
 
 <style scoped>

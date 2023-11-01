@@ -1,17 +1,12 @@
 <script setup lang="ts">
 import ThemeContext from '../context/ThemeContext.vue'
+import ThemeProvider from "../providers/ThemeProvider.vue"
 </script>
 
 <template>
     <ThemeContext>
-        <header>
-            <slot name="header"></slot>
-        </header>
-        <main>
+        <ThemeProvider>
             <slot></slot>
-        </main>
-        <footer>
-            <slot name="footer"></slot>
-        </footer>
+        </ThemeProvider>
     </ThemeContext>
 </template>

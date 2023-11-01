@@ -21,5 +21,8 @@ import Menu from '../components/Menu.vue'
 <style module>
 .container {}
 
-.content {}
+.content {
+  display: flex;
+  gap: 50px;
+}
 </style>
