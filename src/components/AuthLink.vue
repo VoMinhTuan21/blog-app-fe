@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useUser } from '../stores/user';
+import { useRouter } from 'vue-router';
 
-const status = 'authenticated'
+const userStore = useUser()
+const router = useRouter()
 const open = ref(false)
 </script>
 
 <template>
-    <a v-if="status === 'authenticated'" href="/login" :class="[$style.link]">Login</a>
+    <RouterLink v-if="!userStore.isAuthenticated" to="/login" :class="[$style.link]">Login</RouterLink>
     <template v-else>
-        <a href="/write" :class="[$style.link]">Write</a>
-        <span :class="[$style.link]">Logout</span>
+        <RouterLink to="/write" :class="[$style.link]">Write</RouterLink>
+        <span :class="[$style.link]" @click="() => {
+            userStore.logout();
+            router.push('/')
+        }">Logout</span>
     </template>
     <div :class="[$style.burger]" @click="() => { open = !open }">
         <div :class="[$style.line]"></div>
@@ -17,13 +23,17 @@ const open = ref(false)
         <div :class="[$style.line]"></div>
     </div>
     <div v-if="open" :class="[$style.responsiveMenu]">
-        <a href="/">Homepage</a>
-        <a href="/">Contact</a>
-        <a href="/">About</a>
-        <a v-if="status === 'authenticated'" href="/login">Login</a>
+        <RouterLink to="/">Homepage</RouterLink>
+        <RouterLink to="/">Contact</RouterLink>
+        <RouterLink to="/">About</RouterLink>
+        <RouterLink v-if="!userStore.isAuthenticated" to="/login">Login</RouterLink>
         <template v-else>
-            <a href="/write">Write</a>
-            <span :class="[$style.link]">Logout</span>
+            <RouterLink to="/write">Write</RouterLink>
+            <span :class="[$style.link]" @click="() => {
+                    userStore.logout();
+                    router.push('/')
+                }
+                ">Logout</span>
         </template>
     </div>
 </template>

@@ -36,4 +36,4 @@ provide(ThemeKey, {
 
 <template>
     <slot></slot>
-</template>
+</template>../types/types

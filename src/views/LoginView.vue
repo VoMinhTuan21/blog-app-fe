@@ -1,13 +1,18 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+import { genURLGoogleLogin } from '../utils/google'
+import { genURLFacebookLogin } from '../utils/facebook'
 
+const router = useRoute();
+console.log("router.query.code: ", router.query.code);
 </script>
 
 <template>
     <div :class="[$style.container]">
         <div :class="[$style.wrapper]">
-            <div :class="[$style.socialButton]">Sign in with Google</div>
-            <div :class="[$style.socialButton]">Sign in with Facebook</div>
-            <div :class="[$style.socialButton]">Sign in with Github</div>
+            <a :class="[$style.socialButton]" :href="genURLGoogleLogin('login')">Sign in with Google</a>
+            <a :class="[$style.socialButton]" :href="genURLFacebookLogin('login')">Sign in with Facebook</a>
+            <a :class="[$style.socialButton]">Sign in with Github</a>
         </div>
     </div>
 </template>

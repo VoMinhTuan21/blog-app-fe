@@ -18,9 +18,9 @@ const basePath = import.meta.env.BASE_URL
         <div :class="[$style.logo]">Niva Blog</div>
         <div :class="[$style.links]">
             <ThemeToggle />
-            <a href="/" :class="[$style.link]">Homepage</a>
-            <a href="/" :class="[$style.link]">Contact</a>
-            <a href="/" :class="[$style.link]">About</a>
+            <RouterLink to="/" :class="[$style.link]">Homepage</RouterLink>
+            <RouterLink to="/contact" :class="[$style.link]">Contact</RouterLink>
+            <RouterLink to="/about" :class="[$style.link]">About</RouterLink>
             <AuthLink />
         </div>
     </div>

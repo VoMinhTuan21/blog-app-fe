@@ -10,4 +10,4 @@ const { value } = inject(ThemeKey) as Theme
     <div :class="[value]">
         <slot></slot>
     </div>
-</template>
+</template>../types/types

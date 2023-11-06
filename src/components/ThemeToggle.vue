@@ -50,4 +50,4 @@ const { value, toggleTheme } = inject(ThemeKey) as Theme
     left: auto;
     background-color: white;
 }
-</style>
+</style>../types/types
