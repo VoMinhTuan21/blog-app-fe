@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import ThemeContext from '../context/ThemeContext.vue'
-import ThemeProvider from "../providers/ThemeProvider.vue"
+import { onMounted, watch } from 'vue';
 import { Toaster } from "@steveyuowo/vue-hot-toast";
 import "@steveyuowo/vue-hot-toast/vue-hot-toast.css";
 import UserRepository from '../repositories/userRepository';
 import { useUser } from '../stores/user';
+import CategoryRepository from '../repositories/categoryRepository';
+import { useCategory } from '../stores/category';
+import Navbar from '../components/Navbar.vue';
+import Footer from '../components/Footer.vue';
 
-const userStore = useUser()
+const userStore = useUser();
+const categoryStore = useCategory()
 
 onMounted(() => {
     const accessToken = localStorage.getItem('blog-app-access-token');
@@ -17,17 +20,19 @@ onMounted(() => {
             userStore.setLogined()
         })
     }
+
+    if (categoryStore.categories.length === 0) {
+        CategoryRepository.getAll().then(data => {
+            categoryStore.setCategories(data.data)
+        })
+    }
 })
 
 </script>
 
 <template>
-    <ThemeContext>
-        <ThemeProvider>
-            <Suspense>
-                <slot></slot>
-            </Suspense>
-        </ThemeProvider>
-    </ThemeContext>
+    <Navbar />
+    <slot></slot>
+    <Footer />
     <Toaster />
 </template>
