@@ -1,5 +1,5 @@
 import Repository from "./repository";
-import type { IResponseSuccess } from "../types/global";
+import type { IResponseSuccess, PaginationResponse } from "../types/global";
 import type { Post, PostItem, PostLatest, PostsCateLatest } from "../types/api/post";
 
 const resource = "/post";
@@ -33,7 +33,7 @@ const PostRepository = {
 
 	getLatestPostAllCate: async () => {
 		const response = await Repository.get<IResponseSuccess<PostsCateLatest[]>>(
-			`${resource}/latest-all-cate?limit=13`
+			`${resource}/latest-all-cate?limit=5`
 		);
 
 		return response.data.data;
@@ -55,9 +55,9 @@ const PostRepository = {
 		return response.data;
 	},
 
-	getPostsByCategory: async (categoryId: string, limit: number, page: number) => {
-		const response = await Repository.get(
-			`${resource}?categoryId=${categoryId}&limit=${limit}&page=${page}`
+	getPostsByCategory: async (query: { categoryId: string; limit: number; page: number }) => {
+		const response = await Repository.get<IResponseSuccess<PaginationResponse<PostItem>>>(
+			`${resource}?categoryId=${query.categoryId}&limit=${query.limit}&page=${query.page}`
 		);
 
 		return response.data.data;

@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { boolean } from 'yup';
 import type { PostItem } from '../../types/api/post';
 import { generatePostPath } from '../../utils/post';
 
 
 interface Props {
     size: 'large' | 'medium';
-    post: PostItem
+    post: PostItem;
+    titleBold?: boolean
 }
 
 const props = defineProps<Props>()
@@ -19,7 +21,7 @@ const props = defineProps<Props>()
             </RouterLink>
         </div>
         <div :class="[size === 'large' && $style.topStory, size === 'medium' && $style.topStory_2nd]">
-            <h3 :class="$style.title">
+            <h3 :class="[$style.title, titleBold && $style['title-bold']]">
                 <RouterLink :to="`/${generatePostPath(post.title, post.id)}`">
                     {{ post.title }}
                 </RouterLink>
@@ -63,5 +65,9 @@ const props = defineProps<Props>()
             object-fit: cover;
         }
     }
+}
+
+.title-bold {
+    font-weight: bold !important;
 }
 </style>

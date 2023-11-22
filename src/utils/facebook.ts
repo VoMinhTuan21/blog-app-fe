@@ -8,3 +8,15 @@ export function genURLFacebookLogin(state: string) {
 
 	return uri;
 }
+
+export const shareOnFacebook = (path: string) => {
+	const appId = import.meta.env.VITE_FB_APP_ID;
+	const href = encodeURIComponent(path); // URL of the article you want to share
+
+	const shareSuccessUri = import.meta.env.VITE_FB_SHARE_SUCCESS;
+	const redirectUri = encodeURIComponent(shareSuccessUri); // URL where Facebook will redirect after sharing
+
+	const shareUrl = `https://www.facebook.com/dialog/share?app_id=${appId}&display=popup&href=${href}&redirect_uri=${redirectUri}`;
+
+	window.open(shareUrl, "_blank");
+};

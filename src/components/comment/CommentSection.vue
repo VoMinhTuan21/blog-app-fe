@@ -62,7 +62,7 @@ const clearForm = () => {
 const resetPaginationData = () => {
     paginationData.value = {
         data: [],
-        total: 0,
+        total: paginationData.value.total,
         rowPerpage: 4
     }
 }
@@ -196,7 +196,7 @@ watch(toRef(props, 'postId'), () => {
         <p>Hãy là người đầu tiên bình luận trong bài</p>
     </div>
 
-    <div :class="$style['react-tabs']">
+    <div v-else :class="$style['react-tabs']">
         <ul :class="$style['react-tabs__tab-list']">
             <div :class="$style.sidebar">
                 <li @click="() => {

@@ -4,7 +4,7 @@ import type { PostItem } from '../../types/api/post';
 import { generatePostPath } from '../../utils/post';
 
 interface Props {
-    size?: string;
+    size?: "basic" | "large";
     post: PostItem
 }
 

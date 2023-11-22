@@ -7,8 +7,9 @@ export enum RoutePath {
 	HOME = "/",
 	GG_REDIRECT = "/auth/google-redirect",
 	FB_REDIRECT = "/auth/facebook-redirect",
-	CATEGORY = "/category",
+	CATEGORY = "/category/:slug",
 	POST_DETAIL = "/:slug",
+	SHARE_SUCCESS = "/share-success",
 }
 
 const router = createRouter({
@@ -20,14 +21,6 @@ const router = createRouter({
 			component: HomeView,
 		},
 		{
-			path: "/about",
-			name: "about",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import("../views/AboutView.vue"),
-		},
-		{
 			path: RoutePath.SIGN_UP,
 			name: "sign-up",
 			component: () => import("../views/SignUpView.vue"),
@@ -35,7 +28,13 @@ const router = createRouter({
 		{
 			path: RoutePath.CATEGORY,
 			name: "category",
+			props: true,
 			component: () => import("../views/CategoryView.vue"),
+		},
+		{
+			path: RoutePath.SHARE_SUCCESS,
+			name: "share-success",
+			component: () => import("../views/ShareSuccessView.vue"),
 		},
 		{
 			path: "/write",
@@ -49,13 +48,13 @@ const router = createRouter({
 		},
 		{
 			path: RoutePath.GG_REDIRECT,
-			name: "googleRedirect",
+			name: "google-redirect",
 			props: true,
 			component: () => import("../views/SocialRedirect.vue"),
 		},
 		{
 			path: RoutePath.FB_REDIRECT,
-			name: "facebookRedirect",
+			name: "facebook-redirec",
 			props: true,
 			component: () => import("../views/SocialRedirect.vue"),
 		},
@@ -76,6 +75,26 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 	const accessToken = localStorage.getItem("blog-app-access-token");
+
+	switch (to.name) {
+		case "home":
+			document.title = "Báo VietNamNet - Tin tức mới nhất, tin nhanh Việt Nam và thế giới";
+			break;
+		case "category":
+			let cateTitle = to.params.slug as string;
+			cateTitle = cateTitle.split("-").join(" ");
+			document.title = cateTitle[0].toUpperCase() + cateTitle.slice(1);
+			break;
+		case "sign-up":
+			document.title = "Đăng ký";
+			break;
+		case "post":
+			const slug = to.params.slug as string;
+			const postTitle = slug.split("_")[0].split("-").join(" ");
+			document.title = postTitle[0].toUpperCase() + postTitle.slice(1);
+		default:
+			break;
+	}
 
 	// if (to.name === "write") {
 	// 	if (accessToken) {

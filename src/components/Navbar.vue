@@ -110,7 +110,8 @@ onMounted(() => {
 
             <li v-for="cate in categoriesStore.categories"
                 :class="[$style['mainNav-item'], cate.id === categoriesStore.selectedCate?.id && $style['mainNav-item--active']]">
-                <RouterLink :to="`/${cate.title.toLowerCase().replace(' ', '-')}`">{{ cate.title }}</RouterLink>
+                <RouterLink :to="`/category/${cate.title.toLowerCase().replace(' ', '-')}?id=${cate.id}`">{{ cate.title }}
+                </RouterLink>
             </li>
         </ul>
     </nav>

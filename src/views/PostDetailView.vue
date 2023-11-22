@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { onMounted, onUnmounted, ref, watch, watchEffect } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import type { Post, PostItem, PostLatest } from '../types/api/post';
 import PostRepository from '../repositories/postRepository';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -9,9 +9,14 @@ import HorizontalPost from '../components/post/HorizontalPost.vue'
 import CommentSection from '../components/comment/CommentSection.vue'
 import { useCategory } from '../stores/category';
 import HorizontalPostLoading from '../components/loading/post/HorizontalPostLoading.vue';
-import useApi from '../custom-hook/useAPI';
+import { shareOnFacebook } from '../utils/facebook';
+import { useHead } from '@unhead/vue';
 
 const route = useRoute();
+
+const feUri = import.meta.env.VITE_FE_URL
+const articleUri = feUri + route.fullPath;
+
 const categoriesStore = useCategory();
 
 const descContainer = ref<HTMLDivElement>();
@@ -66,6 +71,37 @@ watch(post, () => {
     }, 300)
 })
 
+useHead({
+    title: post.value?.title,
+    meta: [{
+        name: 'description',
+        content: () => post.value?.mainDesc
+    }, {
+        property: 'og:type',
+        content: 'article'
+    }, {
+        property: 'og:url',
+        content: articleUri
+    },
+    {
+        property: 'og:title',
+        content: () => post.value?.title
+    },
+    {
+        property: 'og:description',
+        content: () => post.value?.mainDesc
+    },
+    {
+        property: 'og:site_name',
+        content: 'VietNamNet News'
+    },
+    {
+        property: 'og:image',
+        content: () => post.value?.thumbnail
+    }
+    ]
+})
+
 </script>
 
 <template>
@@ -115,12 +151,14 @@ watch(post, () => {
                     </div>
 
                     <div :class="$style['share-social']">
-                        <a :class="[$style.facebook, $style.link]" href="/">
+                        <p :class="[$style.facebook, $style.link]" @click="() => { shareOnFacebook(articleUri) }">
                             <span :class="$style.icon"></span>
-                        </a>
+                        </p>
                         <a :class="[$style.zalo, $style.link]" href="/">
                             <span :class="$style.icon"></span>
                         </a>
+                        <div class="zalo-share-button" :data-href="articleUri" data-oaid="1894205297991645701"
+                            data-layout="2" data-color="blue" data-customize="false">zalo</div>
                         <a :class="[$style.email, $style.link]" href="/">
                             <span :class="$style.icon"></span>
                         </a>
@@ -180,9 +218,9 @@ watch(post, () => {
                         Bình luận
                     </button>
 
-                    <a :class="[$style.facebook, $style.link]" href="/">
+                    <p :class="[$style.facebook, $style.link]">
                         <span :class="$style.icon"></span>
-                    </a>
+                    </p>
                     <a :class="[$style.zalo, $style.link]" href="/">
                         <span :class="$style.icon"></span>
                     </a>
